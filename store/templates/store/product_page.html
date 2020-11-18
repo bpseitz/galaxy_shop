@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Shop</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/css/foundation.min.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/app.min.css' %}">
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Planet Shop</li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li><a href="/shopping-cart">Shopping Cart (5)</a></li>
+        </ul>
+      </div>
+    </header>
+    <div class="grid-container">
+      <a href="/">Go Back</a>
+      <h3>Product Name</h3>
+
+      <div class="grid-x grid-margin-x grid-margin-y align-space">
+        <div class="medium-4 cell text-center">
+          <img src="https://via.placeholder.com/200" alt="product image">
+        </div>
+        <div class="medium-7 cell">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quisquam dolorum deleniti facilis delectus. Veniam similique illo autem voluptatum. Quas beatae corporis eaque ducimus itaque animi doloribus excepturi porro laboriosam!</p>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque cum veniam voluptas porro corporis sint pariatur, doloremque placeat odit maiores. Iure veritatis cupiditate error quo officiis necessitatibus, repudiandae commodi aspernatur.</p>
+          <form action="#" method="post" class="buy">
+            <select name="quantity" id="quantity">
+              <option value="1">1 ($19.99)</option>
+              <option value="2">2 ($39.98)</option>
+              <option value="3">3 ($59.97)</option>
+            </select>
+            <button type="submit" class="button">Buy</button>
+          </form>
+        </div>
+      </div>
+      <footer class="hide-for-small-only">
+        <h4>Similar Items</h4>
+        <div class="grid-x grid-margin-x grid-margin-y product-grid">
+          <div class="cell medium-2 large-2">
+            <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+            <a href="#">
+              <p>Product Link</p>
+              <p>$19.99</p>
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

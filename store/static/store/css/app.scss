@@ -1,0 +1,104 @@
+// * {
+//     outline: dashed orange;
+// }
+
+header {
+    margin-bottom:  20px;
+}
+
+.categories {
+    p {
+        font-weight: bolder;
+        margin-bottom: 5px;
+    }
+    ul {
+        list-style-type: none;
+    }
+}
+
+.product-nav {
+    ul {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    li {
+        display: inline;
+        margin-left: 10px;
+    }
+}
+
+.product-sort {
+    display: flex;
+    justify-content: flex-end;
+
+    select {
+        width: max-content;
+        margin-left: 10px;
+    }
+}
+
+.product-grid {
+    .thumbnail {
+        margin-bottom: 5px;
+    }
+    a {
+        white-space: nowrap;
+    }
+    p {
+        margin: 0;
+    };
+}
+
+nav {
+    margin-top: 40px;
+}
+
+.buy {
+    float: center;
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+    select {
+        width: min-content;
+    }
+}
+
+.total-group {
+    
+    p {
+        font-weight: bolder;
+    }
+}
+
+.payment-info {
+    
+    label {
+        white-space: nowrap;
+    }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#bill_equals_ship {
+    margin-left: 10px;
+}
+
+.card-info {
+    margin-top: 30px;
+}
+
+
+
+
+

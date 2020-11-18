@@ -1,0 +1,128 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Shop</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/css/foundation.min.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/app.min.css' %}">
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Planet Shop</li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li><a href="/shopping-cart">Shopping Cart (5)</a></li>
+        </ul>
+      </div>
+    </header>
+    <div class="grid-container">
+      <div class="grid-x grid-margin-x">
+        <div class="callout medium-4 large-3 cell categories">
+          <div class="input-group">
+            <input type="text" name="product_search" class="input-group-field">
+            <div class="input-group-button">
+              <input type="submit" class="button" value="Search">
+            </div>
+          </div>
+          <p>Categories</p>
+          <ul>
+            <li>Tshirts (25)</li>
+            <li>Shoes (35)</li>
+            <li>Cups (5)</li>
+            <li>Show All</li>
+          </ul>
+        </div>
+        <div class="callout auto cell">
+          <div class="grid-x align-justify product-nav">
+            <h4 class="cell shrink">Tshirts (page 2)</h4>
+            <div class="cell small-5">
+              <ul>
+                <li><a href="#">first</a></li>
+                <li>|</li>
+                <li><a href="#">prev</a></li>
+                <li>|</li>
+                <li>2</li>
+                <li>|</li>
+                <li><a href="#">next</a></li>
+              </ul>
+              <form action="#" method="post" class="product-sort">
+                <label for="product_sort" class="middle">Sorted by </label>
+                <select name="product_sort" id="product_sort">
+                  <option value="price">Price</option>
+                  <option value="popular">Most Popular</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <div class="grid-x grid-margin-y grid-margin-x product-grid">
+            <div class="cell small-12 medium-6 large-4">
+              <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+              <a href="#">
+                <p>Product Link</p>
+                <p>$19.99</p>
+              </a>
+            </div>
+            <div class="cell small-12 medium-6 large-4">
+              <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+              <a href="#">
+                <p>Product Link</p>
+                <p>$19.99</p>
+              </a>
+            </div>
+            <div class="cell small-12 medium-6 large-4">
+              <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+              <a href="#">
+                <p>Product Link</p>
+                <p>$19.99</p>
+              </a>
+            </div>
+            <div class="cell small-12 medium-6 large-4">
+              <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+              <a href="#">
+                <p>Product Link</p>
+                <p>$19.99</p>
+              </a>
+            </div>
+            <div class="cell small-12 medium-6 large-4">
+              <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+              <a href="#">
+                <p>Product Link</p>
+                <p>$19.99</p>
+              </a>
+            </div>
+            <div class="cell small-12 medium-6 large-4">
+              <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
+              <a href="#">
+                <p>Product Link</p>
+                <p>$19.99</p>
+              </a>
+            </div>
+          </div>
+          <nav>
+            <ul class="pagination text-center">
+              <li class="pagination-previous disabled">Previous</li>
+              <li class="current">1</li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li class="ellipsis"></li>
+              <li><a href="#">12</a></li>
+              <li><a href="#">13</a></li>
+              <li class="pagination-next"><a href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    
+
+    
+  </body>
+</html>
