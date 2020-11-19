@@ -1,0 +1,39 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'store/css/foundation.min.css' %}">
+    <link rel="stylesheet" href="{% static 'store/css/app.min.css' %}">
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Galaxy Shop</li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li><a href="/shopping-cart">Shopping Cart (5)</a></li>
+        </ul>
+      </div>
+    </header>
+    <div class="grid-container">
+      <form action="/products/create" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        {{ form }}
+        <button type="submit" class="button alert">Submit</button>
+      </form>
+      <form action="products/upload" method="post">
+        {%csrf_token%}
+        <label for="thumbnail">Thumbnail
+          <input type="file" name="thumbnail" id="thumbnail">
+        </label>
+        <button type="submit" class="button success">Upload</button>
+      </form>
+    </div>
+  </body>
+</html>
