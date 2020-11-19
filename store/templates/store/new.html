@@ -27,13 +27,6 @@
         {{ form }}
         <button type="submit" class="button alert">Submit</button>
       </form>
-      <form action="products/upload" method="post">
-        {%csrf_token%}
-        <label for="thumbnail">Thumbnail
-          <input type="file" name="thumbnail" id="thumbnail">
-        </label>
-        <button type="submit" class="button success">Upload</button>
-      </form>
     </div>
   </body>
 </html>

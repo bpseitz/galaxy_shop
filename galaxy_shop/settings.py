@@ -125,4 +125,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.getenv('MEDIA_ROOT')
-MEDIA_URL = '/media/'

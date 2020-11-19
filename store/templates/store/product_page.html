@@ -24,15 +24,14 @@
     </header>
     <div class="grid-container">
       <a href="/">Go Back</a>
-      <h3>Product Name</h3>
+      <h3>{{product.name}}</h3>
 
       <div class="grid-x grid-margin-x grid-margin-y align-space">
         <div class="medium-4 cell text-center">
-          <img src="https://via.placeholder.com/200" alt="product image">
+          <img src="/static/store/img{{product.thumbnail.url}}" alt="image of {{product.name}}">
         </div>
         <div class="medium-7 cell">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam quisquam dolorum deleniti facilis delectus. Veniam similique illo autem voluptatum. Quas beatae corporis eaque ducimus itaque animi doloribus excepturi porro laboriosam!</p>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque cum veniam voluptas porro corporis sint pariatur, doloremque placeat odit maiores. Iure veritatis cupiditate error quo officiis necessitatibus, repudiandae commodi aspernatur.</p>
+          <p>{{product.desc}}</p>
           <form action="#" method="post" class="buy">
             <select name="quantity" id="quantity">
               <option value="1">1 ($19.99)</option>
@@ -58,9 +57,6 @@
     </div>
     
 
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.js"></script>
-    <script src="js/app.js"></script>
+    
   </body>
 </html>

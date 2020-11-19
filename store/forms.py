@@ -7,8 +7,6 @@ class ProductForm(forms.Form):
                            label="Description")
     category = forms.CharField(max_length=45)
     price = forms.DecimalField(max_digits=9, decimal_places=2)
+    file = forms.ImageField()
 
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
