@@ -23,3 +23,9 @@ class Product(models.Model):
     def __str__(self):
         return f"<Product object: {self.name} {self.id}>"
 
+    def generate_prices(self):
+        prices = []
+        for i in range(1,6):
+            prices.append(self.price * i)
+        return prices
+

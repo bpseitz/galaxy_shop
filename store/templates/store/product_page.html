@@ -18,7 +18,7 @@
       </div>
       <div class="top-bar-right">
         <ul class="menu">
-          <li><a href="/shopping-cart">Shopping Cart (5)</a></li>
+          <li><a href="/cart">Shopping Cart (5)</a></li>
         </ul>
       </div>
     </header>
@@ -34,9 +34,9 @@
           <p>{{product.desc}}</p>
           <form action="#" method="post" class="buy">
             <select name="quantity" id="quantity">
-              <option value="1">1 ($19.99)</option>
-              <option value="2">2 ($39.98)</option>
-              <option value="3">3 ($59.97)</option>
+              {% for price in prices %}
+              <option value="{{forloop.counter}}">{{forloop.counter}} ({{price}})</option>
+              {% endfor %}
             </select>
             <button type="submit" class="button">Buy</button>
           </form>

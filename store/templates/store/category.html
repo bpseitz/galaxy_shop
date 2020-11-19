@@ -13,7 +13,7 @@
     <header class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li class="menu-text"><a href="/">Galaxy Shop</a></li>
+          <li class="menu-text">Galaxy Shop</li>
         </ul>
       </div>
       <div class="top-bar-right">
@@ -36,11 +36,12 @@
             {% for category in categories %}
               <li><a href="/category/{{category.id}}">{{category.name}} ({{category.products.count}})</a></li>
             {% endfor %}
+            <li><a href="/">Show All</a></li>
           </ul>
         </div>
         <div class="callout auto cell">
           <div class="grid-x align-justify product-nav">
-            <h4 class="cell shrink">All Products</h4>
+            <h4 class="cell shrink">{{target_category.name}} Products</h4>
             <div class="cell small-5">
               <ul>
                 <li><a href="#">first</a></li>
@@ -52,7 +53,6 @@
                 <li><a href="#">next</a></li>
               </ul>
               <form action="#" method="post" class="product-sort">
-                {%csrf_token%}
                 <label for="product_sort" class="middle">Sorted by </label>
                 <select name="product_sort" id="product_sort">
                   <option value="price">Price</option>
@@ -61,44 +61,35 @@
               </form>
             </div>
           </div>
-          <div class="sort-container">
-            <div class="grid-x grid-margin-y grid-margin-x product-grid">
-              {% for product in products %}
-                <div class="cell small-12 medium-6 large-4">
-                  <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
-                  <a href="/product/{{product.id}}">
-                    <p>{{product.name}}</p>
-                    <p>{{product.price}}</p>
-                  </a>
-                </div>
-              {% endfor %}
-            </div>
-            <nav>
-              <ul class="pagination text-center">
-                <li class="pagination-previous disabled">Previous</li>
-                <li class="current">1</li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li class="ellipsis"></li>
-                <li><a href="#">12</a></li>
-                <li><a href="#">13</a></li>
-                <li class="pagination-next"><a href="#">Next</a></li>
-              </ul>
-            </nav>
+          <div class="grid-x grid-margin-y grid-margin-x product-grid">
+            {% for product in products %}
+              <div class="cell small-12 medium-6 large-4">
+                <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
+                <a href="/product/{{product.id}}">
+                  <p>{{product.name}}</p>
+                  <p>{{product.price}}</p>
+                </a>
+              </div>
+            {% endfor %}
           </div>
+          <nav>
+            <ul class="pagination text-center">
+              <li class="pagination-previous disabled">Previous</li>
+              <li class="current">1</li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li class="ellipsis"></li>
+              <li><a href="#">12</a></li>
+              <li><a href="#">13</a></li>
+              <li class="pagination-next"><a href="#">Next</a></li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
-    <script src="{% static 'store/js/jquery.js' %}"></script>
-    <script>
-      $('select').change(function(){
-        var sort_by = $('select option:selected').val();
-        $('.sort-container').load('/products/' + sort_by);
-        
-      });
-      
-    </script>
+    
+
     
   </body>
 </html>

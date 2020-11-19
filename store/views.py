@@ -4,7 +4,24 @@ from .models import *
 
 
 def index(request):
-    return render(request, 'store/index.html')
+    context = {
+        'products': Product.objects.all(),
+        'categories': Category.objects.all(),
+    }
+    return render(request, 'store/index.html', context)
+
+
+def show_category(request, category_id):
+    try:
+        target_category = Category.objects.get(id=category_id)
+    except KeyError:
+        return redirect('/')
+    context = {
+        'target_category': target_category,
+        'products': target_category.products.all(),
+        'categories': Category.objects.all(),
+    }
+    return render(request, 'store/category.html', context)
 
 
 def show_product(request, product_id):
@@ -14,6 +31,7 @@ def show_product(request, product_id):
         return redirect('/')
     context = {
         'product': product,
+        'prices': product.generate_prices(),
     }
     return render(request, 'store/product_page.html', context)
 
@@ -44,13 +62,13 @@ def create(request):
     return redirect('/products/new')
 
 
-# def upload(request, product_id):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             print('success')
-#             instance = Product.objects.get(id=1)
-#             instance.thumbnail = request.FILES['file']
-#             instance.save()
-#             return redirect('/products/new')
-#     return redirect('/products/new')
+def sort(request, sort_by):
+    context = {
+        'products': Product.objects.all(),
+        'categories': Category.objects.all(),
+    }
+    if sort_by == 'price':
+        return render(request, 'store/sort_by_price.html', context)
+    if sort_by == 'popular':
+        return render(request, 'store/sort_by_popularity.html', context)
+
