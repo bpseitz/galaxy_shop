@@ -37,7 +37,7 @@
     {% for product in products %}
     <div class="cell small-12 medium-6 large-4">
         <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
-        <a href="/product/{{product.id}}">
+        <a href="/products/{{product.id}}">
             <p>{{product.name}}</p>
             <p>${{product.price}}</p>
         </a>
