@@ -138,9 +138,12 @@ def buy(request):
             request.session['cart'][product_id] = request.session['cart'].get(product_id, 0) + quantity
         else:
             request.session['cart'] = {product_id: quantity}
-    return redirect('/cart')
+        return render(request, 'store/update_cart.html', {'session': request.session})
+    return redirect('/')
+
 
 def reset(request):
     request.session.flush()
     return redirect('/')
+
     

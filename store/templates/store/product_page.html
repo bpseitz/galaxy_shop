@@ -44,7 +44,7 @@
               <option value="{{forloop.counter}}">{{forloop.counter}} (${{price}})</option>
               {% endfor %}
             </select>
-            <button type="submit" class="button">Buy</button>
+            <button type="submit" class="button" data-open="buy-modal">Buy</button>
           </form>
         </div>
       </div>
@@ -64,6 +64,30 @@
         </div>
         {% endif %}
       </footer>
-    </div>
+      <div class="reveal" id="buy-modal" data-reveal>
+        <h2>Item added to cart.</h2>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <script src="{% static 'store/js/jquery.js' %}"></script>
+    <script src="{% static 'store/js/what-input.js' %}"></script>
+    <script src="{% static 'store/js/foundation.min.js' %}"></script>
+    <script src="{% static 'store/js/app.js' %}"></script>
+    <script>
+      $('form').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: "/buy",
+        method: "post",
+        data: $(this).serialize(),
+        success: function(serverResponse) {
+          $('.top-bar-right').html(serverResponse)
+          console.log('test');
+        }
+      })
+    });
+    </script>
+    
   </body>
 </html>
