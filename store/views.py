@@ -19,6 +19,7 @@ def index(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     context = {
+        'session': request.session,
         'cat_name': 'All',
         's': sort_by,
         'products': products,
@@ -48,6 +49,7 @@ def show_category(request, category_id):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     context = {
+        'session': request.session,
         's': sort_by,
         'cat_name': target_category.name,
         'products': products,
@@ -63,7 +65,11 @@ def show_product(request, product_id):
         product = Product.objects.get(id=product_id)
     except KeyError:
         return redirect('/')
+    similar = product.category.products.exclude(id=product_id)
+    similar = similar.order_by('?')[:3]
     context = {
+        'session': request.session,
+        'similar': similar,
         'product': product,
         'prices': product.generate_prices(),
     }
@@ -71,7 +77,30 @@ def show_product(request, product_id):
 
 
 def show_cart(request):
-    return render(request, 'store/cart.html')
+    cart_items = {}
+    cart_total = 0
+    try:
+        for product_id, quantity in request.session['cart'].items():
+            product = Product.objects.get(id=product_id)
+            item = {
+                'product_id': product_id,
+                'name': product.name,
+                'price': product.price,
+                'quantity': quantity,
+                'total': quantity * product.price,
+            }
+            cart_total += quantity * product.price
+            cart_items[product_id] = item
+    except KeyError:
+        cart_total = '0.00'
+    print(cart_items)
+    context = {
+        'cart_total': cart_total,
+        'cart_items': cart_items,
+        'products': Product.objects.all(),
+        'session': request.session,
+    }
+    return render(request, 'store/cart.html', context)
 
 
 def new(request):
@@ -95,3 +124,23 @@ def create(request):
             return redirect('/products/new')
     return redirect('/products/new')
 
+
+def buy(request):
+    if request.POST:
+        quantity = int(request.POST['quantity'])
+        product_id = request.POST['product_id']
+        print(request.POST)
+        try:
+            request.session['item_count'] += quantity
+        except KeyError:
+            request.session['item_count'] = quantity
+        if request.session.get('cart'):
+            request.session['cart'][product_id] = request.session['cart'].get(product_id, 0) + quantity
+        else:
+            request.session['cart'] = {product_id: quantity}
+    return redirect('/cart')
+
+def reset(request):
+    request.session.flush()
+    return redirect('/')
+    

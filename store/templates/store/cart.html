@@ -13,12 +13,16 @@
     <header class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li class="menu-text">Galaxy Shop</li>
+          <li class="menu-text"><a href="/" id="store-name">Galaxy Shop</a></li>
         </ul>
       </div>
       <div class="top-bar-right">
         <ul class="menu">
-          <li><a href="/shopping-cart">Shopping Cart (5)</a></li>
+          {% if session.item_count %}
+            <li><a href="/cart">Shopping Cart ({{session.item_count}})</a></li>
+          {% else %}
+            <li><a href="/cart">Shopping Cart (0)</a></li>
+          {% endif %}
         </ul>
       </div>
     </header>
@@ -33,41 +37,28 @@
           </tr>
         </thead>
         <tbody>
+          {% for data in cart_items.values %}
           <tr>
-            <td>Product Name</td>
-            <td>$19.99</td>
-            <td>1 update trash</td>
-            <td>$19.99</td>
+            <td><a href="/products/{{data.product_id}}">{{data.name}}</a></td>
+            <td>${{data.price}}</td>
+            <td>{{data.quantity}}</td>
+            <td>${{data.total}}</td>
           </tr>
-          <tr>
-            <td>Product Name</td>
-            <td>$19.99</td>
-            <td>1 update trash</td>
-            <td>$19.99</td>
-          </tr>
-          <tr>
-            <td>Product Name</td>
-            <td>$19.99</td>
-            <td>1 update trash</td>
-            <td>$19.99</td>
-          </tr>
-          <tr>
-            <td>Product Name</td>
-            <td>$19.99</td>
-            <td>1 update trash</td>
-            <td>$19.99</td>
-          </tr>
+          {% empty %}
+            <h3>Your cart is empty.</h3>
+          {% endfor %}
         </tbody>
       </table>
       <div class="grid-x align-right">
         <div class="total-group">
-          <p>Total: $49.96</p>
+          <p>Total: ${{cart_total}}</p>
           <a href="/" class="button align-right">Continue Shopping</a>
         </div>
       </div>
       <div class="grid-x grid-margin-y payment-info">
         <div class="cell medium-8 large-7">
-          <form action="pay" method="post">
+          <form action="/reset" method="post">
+            {% csrf_token %}
             <h4>Shipping Information</h4>
             <div class="grid-x grid-margin-x">
               <div class="small-3 cell">
@@ -188,7 +179,7 @@
                 <label for="first_name" class="text-right middle">First Name:</label>
               </div>
               <div class="small-9 cell">
-                <input type="text" name="first_name" id="first_name">
+                <input type="text" name="first_name" id="b-first_name">
               </div>
             </div>
             <div class="grid-x grid-margin-x">
@@ -196,7 +187,7 @@
                 <label for="last_name" class="text-right middle">Last Name:</label>
               </div>
               <div class="small-9 cell">
-                <input type="text" name="last_name" id="last_name">
+                <input type="text" name="last_name" id="b-last_name">
               </div>
             </div>
             <div class="grid-x grid-margin-x">
@@ -204,7 +195,7 @@
                 <label for="address" class="text-right middle">Address:</label>
               </div>
               <div class="small-9 cell">
-                <input type="text" name="address" id="address">
+                <input type="text" name="address" id="b-address">
               </div>
             </div>
             <div class="grid-x grid-margin-x">
@@ -212,7 +203,7 @@
                 <label for="address_2" class="text-right middle">Address 2:</label>
               </div>
               <div class="small-9 cell">
-                <input type="text" name="address_2" id="address_2">
+                <input type="text" name="address_2" id="b-address_2">
               </div>
             </div>
             <div class="grid-x grid-margin-x">
@@ -220,7 +211,7 @@
                 <label for="city" class="text-right middle">City:</label>
               </div>
               <div class="small-9 cell">
-                <input type="text" name="city" id="city">
+                <input type="text" name="city" id="b-city">
               </div>
             </div>
             <div class="grid-x grid-margin-x">
@@ -291,7 +282,7 @@
                 <label for="zip" class="text-right middle">Zip Code:</label>
               </div>
               <div class="small-9 cell">
-                <input type="number" name="zip" id="zip">
+                <input type="number" name="zip" id="b-zip">
               </div>
             </div>
             <div class="grid-x grid-margin-x card-info">
@@ -323,11 +314,5 @@
         </div>
       </div>
     </div>
-    
-
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.js"></script>
-    <script src="js/app.js"></script>
   </body>
 </html>

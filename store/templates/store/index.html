@@ -18,7 +18,11 @@
       </div>
       <div class="top-bar-right">
         <ul class="menu">
-          <li><a href="/shopping-cart">Shopping Cart (5)</a></li>
+          {% if session.item_count %}
+            <li><a href="/cart">Shopping Cart ({{session.item_count}})</a></li>
+          {% else %}
+            <li><a href="/cart">Shopping Cart (0)</a></li>
+          {% endif %}
         </ul>
       </div>
     </header>
@@ -81,7 +85,7 @@
                 <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
                 <a href="/product/{{product.id}}">
                   <p>{{product.name}}</p>
-                  <p>{{product.price}}</p>
+                  <p>${{product.price}}</p>
                 </a>
               </div>
             {% endfor %}

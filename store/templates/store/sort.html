@@ -2,13 +2,21 @@
     <h4 class="cell shrink">All Products</h4>
     <div class="cell small-5">
       <ul>
-        <li><a href="#">first</a></li>
+        <li><a href="?s={{s}}&page=1">First</a></li>
         <li>|</li>
-        <li><a href="#">prev</a></li>
+        {% if products.has_previous %}
+          <li><a href="?s={{s}}&page={{ products.previous_page_number }}">Previous</a></li>
+        {% else %}
+          <li>Previous</li>
+        {% endif %}
         <li>|</li>
-        <li>2</li>
+        <li>{{products.number}}</li>
         <li>|</li>
-        <li><a href="#">next</a></li>
+        {% if products.has_next %}
+          <li><a href="?s={{s}}&page={{ products.next_page_number }}">Next</a></li>
+        {% else %}
+          <li>Next</li>
+        {% endif %}
       </ul>
       <form action="#" method="post" class="product-sort">
         {%csrf_token%}
@@ -31,7 +39,7 @@
         <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
         <a href="/product/{{product.id}}">
             <p>{{product.name}}</p>
-            <p>{{product.price}}</p>
+            <p>${{product.price}}</p>
         </a>
     </div>
     {% endfor %}
@@ -39,7 +47,7 @@
 <nav>
     <ul class="pagination text-center">
         {% if products.has_previous %}
-        <li class="pagination-previous"><a href="?s={{s}}&page={{ users.previous_page_number }}">Previous</a></li>
+        <li class="pagination-previous"><a href="?s={{s}}&page={{ products.previous_page_number }}">Previous</a></li>
         {% else %}
         <li class="pagination-previous disabled">Previous</li>
         {% endif %}

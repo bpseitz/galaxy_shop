@@ -18,7 +18,11 @@
       </div>
       <div class="top-bar-right">
         <ul class="menu">
-          <li><a href="/cart">Shopping Cart (5)</a></li>
+          {% if session.item_count %}
+            <li><a href="/cart">Shopping Cart ({{session.item_count}})</a></li>
+          {% else %}
+            <li><a href="/cart">Shopping Cart (0)</a></li>
+          {% endif %}
         </ul>
       </div>
     </header>
@@ -32,10 +36,12 @@
         </div>
         <div class="medium-7 cell">
           <p>{{product.desc}}</p>
-          <form action="#" method="post" class="buy">
+          <form action="/buy" method="post" class="buy">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{product.id}}">
             <select name="quantity" id="quantity">
               {% for price in prices %}
-              <option value="{{forloop.counter}}">{{forloop.counter}} ({{price}})</option>
+              <option value="{{forloop.counter}}">{{forloop.counter}} (${{price}})</option>
               {% endfor %}
             </select>
             <button type="submit" class="button">Buy</button>
@@ -43,20 +49,21 @@
         </div>
       </div>
       <footer class="hide-for-small-only">
+        {% if similar %}
         <h4>Similar Items</h4>
         <div class="grid-x grid-margin-x grid-margin-y product-grid">
+          {% for product in similar %}
           <div class="cell medium-2 large-2">
-            <a href="#" class="thumbnail"><img src="https://via.placeholder.com/300"></a>
-            <a href="#">
-              <p>Product Link</p>
-              <p>$19.99</p>
-            </a>
+            <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
+                <a href="/product/{{product.id}}">
+                  <p>{{product.name}}</p>
+                  <p>${{product.price}}</p>
+                </a>
           </div>
+          {% endfor %}
         </div>
+        {% endif %}
       </footer>
     </div>
-    
-
-    
   </body>
 </html>
