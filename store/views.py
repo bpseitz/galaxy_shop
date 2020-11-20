@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+
 from .forms import *
 from .models import *
 
@@ -103,6 +105,7 @@ def show_cart(request):
     return render(request, 'store/cart.html', context)
 
 
+@login_required(login_url='/')
 def new(request):
     context = {
         'form': ProductForm(),
@@ -110,6 +113,7 @@ def new(request):
     return render(request, 'store/new.html', context)
 
 
+@login_required(login_url='/')
 def create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -145,5 +149,3 @@ def buy(request):
 def reset(request):
     request.session.flush()
     return redirect('/')
-
-    
