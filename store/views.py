@@ -19,10 +19,13 @@ def index(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     context = {
+        'cat_name': 'All',
         's': sort_by,
         'products': products,
         'categories': Category.objects.all(),
     }
+    if request.GET.get('show') == 'sort':
+        return render(request, 'store/sort.html', context)
     return render(request, 'store/index.html', context)
 
 
@@ -31,14 +34,13 @@ def show_category(request, category_id):
         target_category = Category.objects.get(id=category_id)
     except KeyError:
         return redirect('/')
-    sort_by = request.GET.get('s')
+    sort_by = request.GET.get('s', 'price-asc')
     if sort_by == 'price-asc':
-        target_category = target_category.order_by('price')
+        products = target_category.products.all().order_by('price')
     if sort_by == 'price-desc':
-        target_category = target_category.order_by('-price')
-    category_products = target_category.products.all()
+        products = target_category.products.all().order_by('-price')
     page = request.GET.get('page', 1)
-    paginator = Paginator(category_products, 3)
+    paginator = Paginator(products, 3)
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
@@ -47,11 +49,13 @@ def show_category(request, category_id):
         products = paginator.page(paginator.num_pages)
     context = {
         's': sort_by,
-        'target_category': target_category,
+        'cat_name': target_category.name,
         'products': products,
         'categories': Category.objects.all(),
     }
-    return render(request, 'store/category.html', context)
+    if request.GET.get('show') == 'sort':
+        return render(request, 'store/sort.html', context)
+    return render(request, 'store/index.html', context)
 
 
 def show_product(request, product_id):
@@ -90,26 +94,4 @@ def create(request):
                                    thumbnail=request.FILES['file'])
             return redirect('/products/new')
     return redirect('/products/new')
-
-
-def sort(request):
-    sort_by = request.GET.get('s')
-    if sort_by == 'price-asc':
-        all_products = Product.objects.all().order_by('price')
-    if sort_by == 'price-desc':
-        all_products = Product.objects.all().order_by('-price')
-    page = request.GET.get('page', 1)
-    paginator = Paginator(all_products, 3)
-    try:
-        products = paginator.page(page)
-    except PageNotAnInteger:
-        products = paginator.page(1)
-    except EmptyPage:
-        products = paginator.page(paginator.num_pages)
-    context = {
-        's': sort_by,
-        'products': products,
-        'categories': Category.objects.all(),
-    }
-    return render(request, 'store/sort_by_price.html', context)
 

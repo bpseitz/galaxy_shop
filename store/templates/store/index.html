@@ -13,7 +13,7 @@
     <header class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
-          <li class="menu-text">Galaxy Shop</li>
+          <li class="menu-text"><a href="/">Galaxy Shop</a></li>
         </ul>
       </div>
       <div class="top-bar-right">
@@ -40,7 +40,7 @@
         </div>
         <div class="callout auto cell sort-container">
           <div class="grid-x align-justify product-nav">
-            <h4 class="cell shrink">All Products</h4>
+            <h4 class="cell shrink">{{cat_name}} Products</h4>
             <div class="cell small-5">
               <ul>
                 <li><a href="#">first</a></li>
@@ -106,7 +106,8 @@
     <script>
       $(document).on('change', 'select', function(){
         var sort_by = $('select option:selected').val();
-        $('.sort-container').load('/sort?s=' + sort_by);
+        var pathname = $(location).attr('pathname');
+        $('.sort-container').load(pathname + '?show=sort&s=' + sort_by);
       });
     </script>
   </body>
