@@ -5,7 +5,11 @@ from .models import *
 
 
 def index(request):
-    all_products = Product.objects.all()
+    sort_by = request.GET.get('s', 'price_low')
+    if sort_by == 'price_low':
+        all_products = Product.objects.all().order_by('price')
+    if sort_by == 'price_high':
+        all_products = Product.objects.all().order_by('-price')
     page = request.GET.get('page', 1)
     paginator = Paginator(all_products, 3)
     try:
@@ -15,13 +19,14 @@ def index(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     context = {
+        's': sort_by,
         'products': products,
         'categories': Category.objects.all(),
     }
     return render(request, 'store/index.html', context)
 
 
-def show_category(request, category_id):
+def show_category(request, category_id, sort_type):
     try:
         target_category = Category.objects.get(id=category_id)
     except KeyError:
@@ -81,8 +86,12 @@ def create(request):
     return redirect('/products/new')
 
 
-def sort(request, sort_by):
-    all_products = Product.objects.all()
+def sort(request):
+    sort_by = request.GET.get('s')
+    if sort_by == 'price_low':
+        all_products = Product.objects.all().order_by('price')
+    if sort_by == 'price_high':
+        all_products = Product.objects.all().order_by('-price')
     page = request.GET.get('page', 1)
     paginator = Paginator(all_products, 3)
     try:
@@ -92,11 +101,9 @@ def sort(request, sort_by):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     context = {
+        's': sort_by,
         'products': products,
         'categories': Category.objects.all(),
     }
-    if sort_by == 'price':
-        return render(request, 'store/sort_by_price.html', context)
-    if sort_by == 'popular':
-        return render(request, 'store/sort_by_popularity.html', context)
+    return render(request, 'store/sort_by_price.html', context)
 

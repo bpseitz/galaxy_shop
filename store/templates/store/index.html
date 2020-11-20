@@ -38,7 +38,7 @@
             {% endfor %}
           </ul>
         </div>
-        <div class="callout auto cell">
+        <div class="callout auto cell sort-container">
           <div class="grid-x align-justify product-nav">
             <h4 class="cell shrink">All Products</h4>
             <div class="cell small-5">
@@ -55,46 +55,50 @@
                 {%csrf_token%}
                 <label for="product_sort" class="middle">Sorted by </label>
                 <select name="product_sort" id="product_sort">
-                  <option value="price">Price</option>
-                  <option value="popular">Most Popular</option>
+                  {% if s == 'price_low' %}
+                    <option value="price_low">Price: Low to High</option>
+                    <option value="price_high">Price: High to Low</option>
+                  {% else %}
+                    <option value="price_high">Price: High to Low</option>
+                    <option value="price_low">Price: Low to High</option>
+                  {% endif %}
                 </select>
               </form>
             </div>
           </div>
-          <div class="sort-container">
-            <div class="grid-x grid-margin-y grid-margin-x product-grid">
-              {% for product in products %}
-                <div class="cell small-12 medium-6 large-4">
-                  <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
-                  <a href="/product/{{product.id}}">
-                    <p>{{product.name}}</p>
-                    <p>{{product.price}}</p>
-                  </a>
-                </div>
-              {% endfor %}
-            </div>
-            <nav>
-              <ul class="pagination text-center">
-                {% if products.has_previous %}
-                  <li class="pagination-previous"><a href="?page={{ users.previous_page_number }}">Previous</a></li>
-                {% else %}
-                  <li class="pagination-previous disabled">Previous</li>
-                {% endif %}
-                {% for i in products.paginator.page_range %}
-                  {% if products.number == i %}
-                    <li class="current">{{ i }}</li>
-                  {% else %}
-                    <li><a href="?page={{ i }}">{{ i }}</a></li>
-                  {% endif %}
-                {% endfor %}
-                {% if products.has_next %}
-                  <li class="pagination-next"><a href="?page={{ products.next_page_number }}">Next</a></li>
-                {% else %}
-                  <li class="pagination-next disabled">Next</li>
-                {% endif %}
-              </ul>
-            </nav>
+          <div class="grid-x grid-margin-y grid-margin-x product-grid">
+            {% for product in products %}
+              <div class="cell small-12 medium-6 large-4">
+                <a href="/products/{{product.id}}" class="thumbnail"><img src="/static/store/img{{product.thumbnail.url}}"></a>
+                <a href="/product/{{product.id}}">
+                  <p>{{product.name}}</p>
+                  <p>{{product.price}}</p>
+                </a>
+              </div>
+            {% endfor %}
           </div>
+          <nav>
+            <ul class="pagination text-center">
+              {% if products.has_previous %}
+                <li class="pagination-previous"><a href="?s={{s}}&page={{ users.previous_page_number }}">Previous</a></li>
+              {% else %}
+                <li class="pagination-previous disabled">Previous</li>
+              {% endif %}
+              {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                  <li class="current">{{ i }}</li>
+                {% else %}
+                  <li><a href="?s={{s}}&page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+              {% endfor %}
+              {% if products.has_next %}
+                <li class="pagination-next"><a href="?s={{s}}&page={{ products.next_page_number }}">Next</a></li>
+              {% else %}
+                <li class="pagination-next disabled">Next</li>
+              {% endif %}
+            </ul>
+          </nav>
+          
         </div>
       </div>
     </div>
@@ -102,7 +106,7 @@
     <script>
       $('select').change(function(){
         var sort_by = $('select option:selected').val();
-        $('.sort-container').load('/products/' + sort_by);
+        $('.sort-container').load('/test?s=' + sort_by);
         
       });
       
