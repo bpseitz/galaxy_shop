@@ -119,13 +119,15 @@ def create(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             print('success')
-            product_category = Category.objects.get_or_create(name=form.cleaned_data['category'])[0]
-            Product.objects.create(name=form.cleaned_data['name'],
-                                   desc=form.cleaned_data['desc'],
-                                   category=product_category,
-                                   price=form.cleaned_data['price'],
-                                   thumbnail=request.FILES['file'])
-            return redirect('/products/new')
+            product_category = Category.objects.get_or_create(
+                name=form.cleaned_data['category'])[0]
+            new_product = Product.objects.create(
+                name=form.cleaned_data['name'],
+                desc=form.cleaned_data['desc'],
+                category=product_category,
+                price=form.cleaned_data['price'],
+                thumbnail=request.FILES['file'])
+            return redirect('/products/' + str(new_product.id))
     return redirect('/products/new')
 
 
@@ -139,10 +141,12 @@ def buy(request):
         except KeyError:
             request.session['item_count'] = quantity
         if request.session.get('cart'):
-            request.session['cart'][product_id] = request.session['cart'].get(product_id, 0) + quantity
+            request.session['cart'][product_id] = request.session['cart'].get(
+                product_id, 0) + quantity
         else:
             request.session['cart'] = {product_id: quantity}
-        return render(request, 'store/update_cart.html', {'session': request.session})
+        return render(request, 'store/update_cart.html',
+                      {'session': request.session})
     return redirect('/')
 
 
