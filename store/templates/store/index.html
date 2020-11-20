@@ -51,16 +51,16 @@
                 <li>|</li>
                 <li><a href="#">next</a></li>
               </ul>
-              <form action="#" method="post" class="product-sort">
+              <form action="#" method="post" class="product-sort"></form>
                 {%csrf_token%}
                 <label for="product_sort" class="middle">Sorted by </label>
                 <select name="product_sort" id="product_sort">
-                  {% if s == 'price_low' %}
-                    <option value="price_low">Price: Low to High</option>
-                    <option value="price_high">Price: High to Low</option>
+                  {% if s == 'price-asc' %}
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
                   {% else %}
-                    <option value="price_high">Price: High to Low</option>
-                    <option value="price_low">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="price-asc">Price: Low to High</option>
                   {% endif %}
                 </select>
               </form>
@@ -106,11 +106,8 @@
     <script>
       $('select').change(function(){
         var sort_by = $('select option:selected').val();
-        $('.sort-container').load('/test?s=' + sort_by);
-        
+        $('.sort-container').load('/sort?s=' + sort_by);
       });
-      
     </script>
-    
   </body>
 </html>

@@ -5,10 +5,10 @@ from .models import *
 
 
 def index(request):
-    sort_by = request.GET.get('s', 'price_low')
-    if sort_by == 'price_low':
+    sort_by = request.GET.get('s', 'price-asc')
+    if sort_by == 'price-asc':
         all_products = Product.objects.all().order_by('price')
-    if sort_by == 'price_high':
+    elif sort_by == 'price-desc':
         all_products = Product.objects.all().order_by('-price')
     page = request.GET.get('page', 1)
     paginator = Paginator(all_products, 3)
@@ -26,11 +26,16 @@ def index(request):
     return render(request, 'store/index.html', context)
 
 
-def show_category(request, category_id, sort_type):
+def show_category(request, category_id):
     try:
         target_category = Category.objects.get(id=category_id)
     except KeyError:
         return redirect('/')
+    sort_by = request.GET.get('s')
+    if sort_by == 'price-asc':
+        target_category = target_category.order_by('price')
+    if sort_by == 'price-desc':
+        target_category = target_category.order_by('-price')
     category_products = target_category.products.all()
     page = request.GET.get('page', 1)
     paginator = Paginator(category_products, 3)
@@ -41,6 +46,7 @@ def show_category(request, category_id, sort_type):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     context = {
+        's': sort_by,
         'target_category': target_category,
         'products': products,
         'categories': Category.objects.all(),
@@ -88,9 +94,9 @@ def create(request):
 
 def sort(request):
     sort_by = request.GET.get('s')
-    if sort_by == 'price_low':
+    if sort_by == 'price-asc':
         all_products = Product.objects.all().order_by('price')
-    if sort_by == 'price_high':
+    if sort_by == 'price-desc':
         all_products = Product.objects.all().order_by('-price')
     page = request.GET.get('page', 1)
     paginator = Paginator(all_products, 3)
