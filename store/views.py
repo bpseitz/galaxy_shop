@@ -1,11 +1,21 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import *
 from .models import *
 
 
 def index(request):
+    all_products = Product.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_products, 3)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
     context = {
-        'products': Product.objects.all(),
+        'products': products,
         'categories': Category.objects.all(),
     }
     return render(request, 'store/index.html', context)
@@ -16,9 +26,18 @@ def show_category(request, category_id):
         target_category = Category.objects.get(id=category_id)
     except KeyError:
         return redirect('/')
+    category_products = target_category.products.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(category_products, 3)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
     context = {
         'target_category': target_category,
-        'products': target_category.products.all(),
+        'products': products,
         'categories': Category.objects.all(),
     }
     return render(request, 'store/category.html', context)
@@ -63,8 +82,17 @@ def create(request):
 
 
 def sort(request, sort_by):
+    all_products = Product.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_products, 3)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
     context = {
-        'products': Product.objects.all(),
+        'products': products,
         'categories': Category.objects.all(),
     }
     if sort_by == 'price':
