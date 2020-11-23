@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'store/favicon/favicon-16x16.png' %}">
     <link rel="stylesheet" href="{% static 'store/css/foundation.min.css' %}">
     <link rel="stylesheet" href="{% static 'store/css/app-cart.min.css' %}">
+    <script src="https://kit.fontawesome.com/926f919e83.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <header class="top-bar" id="site-header">
@@ -22,9 +23,9 @@
       <div class="top-bar-right">
         <ul class="menu">
           {% if session.item_count %}
-            <li><a href="/cart">Shopping Cart ({{session.item_count}})</a></li>
+            <li><a href="/cart"><i class="fas fa-shopping-cart"></i> Cart ({{session.item_count}})</a></li>
           {% else %}
-            <li><a href="/cart">Shopping Cart (0)</a></li>
+            <li><a href="/cart"><i class="fas fa-shopping-cart"></i> Cart (0)</a></li>
           {% endif %}
         </ul>
       </div>
@@ -44,7 +45,23 @@
           <tr>
             <td><a href="/products/{{data.product_id}}">{{data.name}}</a></td>
             <td>${{data.price}}</td>
-            <td>{{data.quantity}}</td>
+            <td>
+              <form action="/cart/update" method="post" class="input-group-quantity">
+                {% csrf_token %}
+                <select name="quantity" id="quantity">
+                  {% for i in '12345'|make_list %}
+                    {% if forloop.counter == data.quantity %}
+                      <option value="{{ forloop.counter }}" selected>{{ i }}</option>
+                    {% else %}
+                      <option value="{{ forloop.counter }}">{{ i }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <button type="submit" name="submit_type" value="update">Update</button>
+                <button type="submit" name="submit_type" value="delete"><i class="far fa-trash-alt"></i></button>
+                <input type="hidden" name="product_id" value="{{ data.product_id }}">
+              </form>
+            </td>
             <td>${{data.total}}</td>
           </tr>
           {% empty %}

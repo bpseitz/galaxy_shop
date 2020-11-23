@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'store/favicon/favicon-16x16.png' %}">
     <link rel="stylesheet" href="{% static 'store/css/foundation.min.css' %}">
     <link rel="stylesheet" href="{% static 'store/css/app.min.css' %}">
+    <script src="https://kit.fontawesome.com/926f919e83.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <header class="top-bar" id="site-header">
@@ -22,9 +23,9 @@
       <div class="top-bar-right">
         <ul class="menu">
           {% if session.item_count %}
-            <li><a href="/cart">Shopping Cart ({{session.item_count}})</a></li>
+            <li><a href="/cart"><i class="fas fa-shopping-cart"></i> Cart ({{session.item_count}})</a></li>
           {% else %}
-            <li><a href="/cart">Shopping Cart (0)</a></li>
+            <li><a href="/cart"><i class="fas fa-shopping-cart"></i> Cart (0)</a></li>
           {% endif %}
         </ul>
       </div>

@@ -92,9 +92,6 @@ nav {
     display: flex;
     flex-direction: column;
     width: min-content;
-    select {
-        width: min-content;
-    }
 }
 
 .total-group {
@@ -144,6 +141,14 @@ footer {
 
 table {
     border: solid 2px black;
+}
+
+button {
+    white-space: nowrap;
+}
+
+.fa-cart-plus {
+    font-size: larger;
 }
 
 

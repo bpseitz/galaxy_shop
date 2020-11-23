@@ -6,6 +6,7 @@ from .forms import *
 from .models import *
 
 
+# Displays a page showing all products.
 def index(request):
     sort_by = request.GET.get('s', 'price-asc')
     if sort_by == 'price-asc':
@@ -32,6 +33,7 @@ def index(request):
     return render(request, 'store/index.html', context)
 
 
+# Displays a page showing products in a specific category.
 def show_category(request, category_id):
     try:
         target_category = Category.objects.get(id=category_id)
@@ -62,6 +64,7 @@ def show_category(request, category_id):
     return render(request, 'store/index.html', context)
 
 
+# Displays a page showing product details.
 def show_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -78,7 +81,10 @@ def show_product(request, product_id):
     return render(request, 'store/product_page.html', context)
 
 
+# Displays a page showing the contents of the cart and a form for shipping
+# and billing information.
 def show_cart(request):
+    print(request.session['cart'])
     cart_items = {}
     cart_total = 0
     try:
@@ -95,7 +101,6 @@ def show_cart(request):
             cart_items[product_id] = item
     except KeyError:
         cart_total = '0.00'
-    print(cart_items)
     context = {
         'cart_total': cart_total,
         'cart_items': cart_items,
@@ -105,6 +110,7 @@ def show_cart(request):
     return render(request, 'store/cart.html', context)
 
 
+# Displays a page for adding new products to the site.
 @login_required(login_url='/')
 def new(request):
     context = {
@@ -113,6 +119,7 @@ def new(request):
     return render(request, 'store/new.html', context)
 
 
+# Creates a new product for the site.
 @login_required(login_url='/')
 def create(request):
     if request.method == 'POST':
@@ -131,6 +138,7 @@ def create(request):
     return redirect('/products/new')
 
 
+# Increases the product's quantity in the cart by the selected amount.
 def buy(request):
     if request.POST:
         quantity = int(request.POST['quantity'])
@@ -150,6 +158,25 @@ def buy(request):
     return redirect('/')
 
 
+# Clears the client's session.
 def reset(request):
     request.session.flush()
     return redirect('/')
+
+
+# Changes the quantity of a product in the cart or deletes a product from the
+# cart.
+def update_cart(request):
+    if request.method == 'POST':
+        cart = request.session['cart']
+        product_id = request.POST['product_id']
+        if request.POST['submit_type'] == 'update':
+            cart[product_id] = int(request.POST['quantity'])
+        else:
+            del cart[product_id]
+        item_count = 0
+        for quantity in cart.values():
+            item_count += quantity
+        request.session['item_count'] = item_count
+        request.session.modified = True
+    return redirect('/cart')

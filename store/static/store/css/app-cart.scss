@@ -6,13 +6,6 @@ $link-color: #1779ba;
 //     outline: dashed orange;
 // }
 
-body {
-    // background-color: black;
-}
-
-// p, h4, h3 {
-//     color: $top-bar-text;
-// }
 
 
 .callout {
@@ -146,6 +139,25 @@ table {
     border: solid 2px black;
 }
 
+#quantity {
+    width: fit-content;
+    margin: 0;
+}
+
+.input-group-quantity {
+    display: flex;
+    align-items: center;
+}
+
+td button {
+    margin-left: 20px;
+    height: fit-content;
+    color: #1779ba;
+}
+
+td button:hover {
+    color: darken(#1779ba, 20%);
+}
 
 
 
